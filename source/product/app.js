@@ -27,22 +27,49 @@ function put(color,x,y,ary){
 }
 
 function flipWidth(color,hight,width,ary){
+
+    flipWidthRight(color,hight,width,ary[hight]);
+    flipWidthLeft(color,hight,width,ary[hight]);
+
+    return ary;
+
+}
+function flipHight(color,hight,width,ary){
+
+    //引き渡し用の配列作成
+    var paramArray=new Array();
+    var i = 0;
+    while(i<ary.length){
+        paramArray[i]=ary[i][width];
+        i++;
+    }
+    flipWidthLeft(color,hight,width,paramArray);
+    flipWidthRight(color,hight,width,paramArray);
+
+    //aryにとりあえず戻す
+    var j =0;
+    while(j<ary.length){
+        ary[j][width]=paramArray[j];
+        j++;
+    }
+    return ary;
+
+}
+function flipWidthRight(color,hight,width,ary){
     var start = width+1;//あとで上限ごえ
     var end =width;
-    if(ary[hight][start] != color && ary[hight][start] != 0 ){
-        end = ary[hight].indexOf(color,start);
+    if(ary[start] == color && ary[start] == 0 ){
+        return ary;
     }
-
-
+    end = ary.indexOf(color,start);
+ 
     var i = width;
 
     while(i<end){
-        ary[hight][i]=color;
+        ary[i]=color;
         i++;
     }
 
-    //パラメタそのまま引き渡す
-    flipWidthLeft(color,hight,width,ary);
 
     return ary;
 
@@ -50,22 +77,24 @@ function flipWidth(color,hight,width,ary){
 
 function flipWidthLeft(color,hight,width,ary){
     var start = width-1;//あとで直す。下限
-    var end =width;
+    var pos;
 
-    if(ary[hight][start] != color && ary[hight][start] != 0 ){
-        end = ary[hight].lastIndexOf(color,start);
-    }
-
-    //なかった時はそのままリターン
-    if(end<0){
+    if(ary[start] == color && ary[start] == 0 ){
         return ary;
     }
 
-    var i = width;//本当は最初の代入は不要
+    pos = ary.lastIndexOf(color,start);
 
-    while(i>end){
-        ary[hight][i]=color;
-        i--;
+    //なかった時はそのままリターン
+    if(pos<0){
+        return ary;
+    }
+
+    var i = pos;//本当は最初の代入は不要
+
+    while(i<width){
+        ary[i]=color;
+        i++;
     }
     return ary;
 
