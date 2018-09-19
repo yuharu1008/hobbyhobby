@@ -25,15 +25,24 @@ function put(color,x,y,ary){
 
 
 }
+exports.put = put;
 
 function flipWidth(color,hight,width,ary){
+    var ret = new Array();
 
-    flipWidthRight(color,hight,width,ary[hight]);
-    flipWidthLeft(color,hight,width,ary[hight]);
+    ret = (flipWidthRight(color,hight,width,ary[hight])).concat(flipWidthLeft(color,hight,width,ary[hight]));
 
+    var i =0;
+    while(i<ret.length){
+        var flipPos = ret [i];
+        ary[hight][flipPos]=color;
+        i++;
+    }
     return ary;
 
 }
+exports.flipWidth = flipWidth;
+
 function flipHight(color,hight,width,ary){
 
     //引き渡し用の配列作成
@@ -43,59 +52,83 @@ function flipHight(color,hight,width,ary){
         paramArray[i]=ary[i][width];
         i++;
     }
-    flipWidthLeft(color,hight,width,paramArray);
-    flipWidthRight(color,hight,width,paramArray);
+    var ret = new Array();
 
-    //aryにとりあえず戻す
-    var j =0;
-    while(j<ary.length){
-        ary[j][width]=paramArray[j];
-        j++;
+    ret = (flipWidthRight(color,hight,width,paramArray)).concat(flipWidthLeft(color,hight,width,paramArray));
+
+    //ary置き換え
+    var i =0;
+    while(i<ret.length){
+        var flipPos = ret [i];
+        ary[flipPos][width]=color;
+        i++;
     }
     return ary;
 
 }
+exports.flipHight = flipHight;
+
 function flipWidthRight(color,hight,width,ary){
     var start = width+1;//あとで上限ごえ
-    var end =width;
+    var flipPos = new Array();
+
     if(ary[start] == color && ary[start] == 0 ){
-        return ary;
+        return flipPos;
     }
-    end = ary.indexOf(color,start);
- 
-    var i = width;
 
-    while(i<end){
-        ary[i]=color;
+    var i = start;
+    var j = 0;
+    var isFind = false;
+
+    while(i<ary.length){
+        if(ary[i]==color){
+            isFind = true;
+            break;
+        }
+        flipPos[j] = i;
         i++;
+        j++;
+
     }
-
-
-    return ary;
+    if(isFind){
+        return flipPos;
+    }
+    return new Array();
 
 }
+exports.flipWidthRight = flipWidthRight;
 
 function flipWidthLeft(color,hight,width,ary){
-    var start = width-1;//あとで直す。下限
-    var pos;
+    var start = width-1;//あとで上限ごえ
+    var flipPos = new Array();
 
     if(ary[start] == color && ary[start] == 0 ){
-        return ary;
+        return flipPos;
     }
 
-    pos = ary.lastIndexOf(color,start);
+    var i = start;
+    var j = 0;
+    var isFind = false;
 
-    //なかった時はそのままリターン
-    if(pos<0){
-        return ary;
+    while(i>=0){
+        if(ary[i]==color){
+            isFind = true;
+            break;
+        }
+        flipPos[j] = i;
+        i--;
+        j++;
+
     }
 
-    var i = pos;//本当は最初の代入は不要
-
-    while(i<width){
-        ary[i]=color;
-        i++;
+    if(isFind){
+        return flipPos;
     }
-    return ary;
+    return new Array();
 
 }
+exports.flipWidthLeft = flipWidthLeft;
+
+
+
+

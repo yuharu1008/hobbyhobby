@@ -1,3 +1,11 @@
+var source = require('../product/app.js');
+var put = source.put;
+var flipWidth = source.flipWidth;
+var flipHight = source.flipHight;
+var flipWidthLeft = source.flipWidthLeft;
+var flipWidthRight = source.flipWidthRight;
+
+
 describe('putのテスト',function(){
 
     var arraytest;
@@ -282,3 +290,110 @@ describe('flipWidthのテスト',function(){
         expect(ret[5]).toEqual([0,1,0,0,0,0]);
     });
 });
+
+describe('flipWidthRightのテスト',function(){
+    var othellotable;
+    beforeEach(function(){
+        othellotable = [
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0]
+        ];
+   });
+    it('ひっくり返す（右方向１つ）',function(){
+        othellotable = [
+            [1,2,1,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0]
+        ];
+        var ret = flipWidthRight(1,0,0,othellotable[0]);
+        expect(ret).toEqual([1]);
+
+    });
+    it('ひっくり返す（右方向複数）',function(){
+        othellotable = [
+            [1,2,2,2,2,1],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0]
+        ];
+        var ret = flipWidthRight(1,0,0,othellotable[0]);
+        expect(ret).toEqual([1,2,3,4]);
+
+    });
+    it('ひっくり返す（右方向対象なし）',function(){
+        othellotable = [
+            [1,1,1,1,1,1],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0]
+        ];
+        var ret = flipWidthRight(1,0,5,othellotable[0]);
+        expect(ret).toEqual([]);
+
+    });
+
+    describe('flipWidthLeftのテスト',function(){
+        var othellotable;
+        beforeEach(function(){
+            othellotable = [
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0]
+            ];
+       });
+    it('ひっくり返す（左方向１つ）',function(){
+        othellotable = [
+            [0,0,0,1,2,1],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0]
+        ];
+        var ret = flipWidthLeft(1,0,5,othellotable[0]);
+        expect(ret).toEqual([4]);
+
+      });
+    });
+    it('ひっくり返す（左方向複数）',function(){
+        othellotable = [
+            [1,2,2,2,2,1],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0]
+        ];
+        var ret = flipWidthLeft(1,0,5,othellotable[0]);
+        expect(ret).toEqual([4,3,2,1]);
+
+      });
+      it('ひっくり返す（左方向対象なし）',function(){
+        othellotable = [
+            [2,2,2,2,2,1],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0]
+        ];
+        var ret = flipWidthLeft(1,0,5,othellotable[0]);
+        expect(ret).toEqual([]);
+
+      });
+
+    });
